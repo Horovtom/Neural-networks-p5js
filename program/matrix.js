@@ -12,22 +12,60 @@ function Matrix(rows, cols) {
             this.matrix[i][j] = 0;
         }
     }
+}
 
-
+Matrix.prototype.randomize = function() {
+    for(var i = 0; i < this.rows; i++) {
+        for(var j = 0; j < this.cols; j++) {
+            this.matrix[i][j] = Math.floor(Math.random() * 10);
+        }
+    }
 }
 
 Matrix.prototype.add = function(n) {
-    for(var i = 0; i < this.rows; i++) {
-        for(var j = 0; j < this.cols; j++) {
-            this.matrix[i][j] += n;
+
+    if (n instanceof Matrix) {
+        if (n.rows != this.rows || n.cols != this.cols) {
+            console.error("Matrices do not have the same dimensions!");
+            console.error(this.rows + " != " + n.rows + " or " + this.cols + " != " + n.cols);
+            return;
+        }
+        for(var i = 0; i < this.rows; i++) {
+            for(var j = 0; j < this.cols; j++) {
+                this.matrix[i][j] += n.matrix[i][j];
+            }
+        }
+    } else {
+        for(var i = 0; i < this.rows; i++) {
+            for(var j = 0; j < this.cols; j++) {
+                this.matrix[i][j] += n;
+            }
         }
     }
 }
 
 Matrix.prototype.scale = function(n) {
-    for(var i = 0; i < this.rows; i++) {
-        for(var j = 0; j < this.cols; j++) {
-            this.matrix[i][j] *= n;
+    if (n instanceof Matrix) {
+        if (n.rows != this.rows || n.cols != this.cols) {
+            console.error("Matrices do not have the same dimensions!");
+            console.error(this.rows + " != " + n.rows + " or " + this.cols + " != " + n.cols);
+            
+            return;
+        }
+        for(var i = 0; i < this.rows; i++) {
+            for(var j = 0; j < this.cols; j++) {
+                this.matrix[i][j] *= n.matrix[i][j];
+            }
+        }
+    } else {
+        for(var i = 0; i < this.rows; i++) {
+            for(var j = 0; j < this.cols; j++) {
+                this.matrix[i][j] *= n;
+            }
         }
     }
+}
+
+Matrix.prototype.print = function() {
+    console.table(this.matrix)
 }
